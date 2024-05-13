@@ -1,0 +1,66 @@
+<div class="person-details">
+  <h2> <%= "#{@response_object["first_name"]} #{@response_object["last_name"]}" %></h2>
+
+  <% if @response_object["picture_uri"] %>
+    <img src="<%= @tuwien_uri + @response_object["picture_uri"] %>" style="max-width: 300px">
+  <% end %>
+
+  <h2>Details:</h2>
+  <p class="title-paragraph"><%= @response_object["preceding_titles"] %></p>
+
+  <% if @response_object["main_phone_number"] %>
+    <p><%= @response_object["main_phone_number"] %></p>
+  <% end %>
+
+  <% if @response_object["main_email"] %>
+    <p><%= @response_object["main_email"] %></p>
+  <% end %>
+
+  <h3>Annotations:</h3>
+  <%= form_with url: "/people/annotations", method: :put do |form| %>
+    <div class="annotation-form">
+      <p>
+        <%= form.text_area :annotation, :value => @annotation&.annotation, :cols => "30", :rows => "3", :placeholder => "Your annotation here..." %>
+        <%= form.hidden_field :person_id, :value => @response_object["tiss_id"] %>
+      </p>
+      <p>
+        <%= form.submit @annotation ? "Save edit" : "Add Annotation" %>
+      </p>
+    </div>
+  <% end %>
+
+  <h3>Personal Keywords:</h3>
+
+  <% if @keywords %>
+
+    <div class="keyword-list">
+
+      <% @keywords.each_with_index do |keyword, index| %>
+        <div class="keyword">
+          <%= keyword %>
+          <%= button_to '', people_keywords_path(ind: index,
+                                                 person_id: @response_object["tiss_id"]), :class => "kw-remove",
+                        method: :delete %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+
+  <%= form_with url: "/people/keywords", method: :put do |form| %>
+    <div class="annotation-form">
+      <p>
+        <%= form.text_field :keyword, :value => @new_keyword, :required => "required", :placeholder => "Add a keyword..." %>
+        <%= form.hidden_field :person_id, :value => @response_object["tiss_id"] %>
+      </p>
+      <p>
+        <%= form.submit "Add keyword" %>
+      </p>
+    </div>
+
+  <% end %>
+
+
+  <%= button_to 'Add to favorites', people_path(tiss_id: @response_object["tiss_id"], first_name: @response_object["first_name"],
+                                                last_name: @response_object["last_name"]),class: "add-to-favorites-button" %>
+
+</div>

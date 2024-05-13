@@ -1,0 +1,26 @@
+<h1 class="page-title">Favorite Theses by <%= params[:order_by_title] == 'true' ? 'title' : 'date added' %></h1>
+<%= link_to params[:order_by_title] == 'true' ? 'Sort by date added' : 'Sort by title',
+              theses_favorites_path(order_by_title: (params[:order_by_title] == 'true' ? 'false' : 'true')), method: :get %>
+
+<% if @favorites.length >= 1 %>
+  <div class="person-list">
+
+
+    <%  @favorites.each do |thesis| %>
+      <div class="list-item">
+        <h2><%= thesis["title"].nil? ? thesis["thesis_id"] : thesis["title"] %></h2>
+
+        <div class="button-line">
+
+          <%= button_to 'Details', "/theses/#{thesis["thesis_id"]}", method: :get %>
+          <%= button_to 'Remove favorite', theses_path(thesis_id: thesis["thesis_id"]), method: :delete %>
+        </div>
+
+      </div>
+
+
+    <% end %>
+  </div>
+<% else %>
+  <p class="page-title"> You don't have favorites yet! </p>
+<% end %>

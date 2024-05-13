@@ -1,0 +1,25 @@
+<h1 class="page-title">Favorite Project by <%= params[:order_by_title] == 'true' ? 'title' : 'date added' %></h1>
+<%= link_to params[:order_by_title] == 'true' ? 'Sort by date added' : 'Sort by title',
+            projects_favorites_path(order_by_title: (params[:order_by_title] == 'true' ? 'false' : 'true')), method: :get %>
+
+<% if @favorites.length >= 1 %>
+  <div class="person-list">
+
+    <% @favorites.each_with_index do |project, index| %>
+      <div class="list-item">
+        <h2><%= project["title"].nil? ? project["project_id"] : project["title"]  %></h2>
+
+        <div class="button-line">
+
+          <%= button_to 'Details', "/projects/#{project["project_id"]}", method: :get %>
+          <%= button_to 'Remove favorite', projects_path(project_id: project["project_id"]), method: :delete %>
+        </div>
+
+      </div>
+
+
+    <% end %>
+  </div>
+<% else %>
+  <p class="page-title"> You don't have favorites yet! </p>
+<% end %>

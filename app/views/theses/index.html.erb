@@ -1,0 +1,30 @@
+<h1 class="page-title">Theses</h1>
+
+<% if @search_results.length >= 1 %>
+  <div class="person-list">
+
+    <% @search_results.each_with_index do |thesis, index| %>
+
+      <div class="list-item">
+        <h3><%= if thesis["title"].nil?
+                  thesis["id"]
+                else
+                  thesis["title"]
+                end %> </h3>
+
+        <div class="button-line">
+
+          <%= button_to 'Details', "/theses/#{thesis["id"]}", method: :get %>
+
+          <%= button_to 'Add to favorites',
+                        theses_path(thesis_id: thesis["id"],
+                                      title: thesis["title"]) %>
+        </div>
+
+      </div>
+    <% end %>
+  </div>
+
+<% else %>
+  <p class="page-title"> No results found for your search! </p>
+<% end %>

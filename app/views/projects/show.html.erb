@@ -1,0 +1,68 @@
+<div class="person-details">
+  <h2> <%= "#{@response_object.xpath('.//tuVienna/project/title/en/text()').nil? ?
+                @response_object.xpath('.//tuVienna/project/title/de/text()') :
+                @response_object.xpath('.//tuVienna/project/title/en/text()')}" %></h2>
+
+  <h3>Short description: <%= "#{@response_object.xpath('.//tuVienna/project/shortDescription/text()')}" %></h3>
+  <h3>Contract start: <%= "#{@response_object.xpath('.//tuVienna/project/contractBegin/text()')}" %></h3>
+  <h3>Contract end: <%= "#{@response_object.xpath('.//tuVienna/project/contractEnd/text()')}" %></h3>
+  <h3>Project start: <%= "#{@response_object.xpath('.//tuVienna/project/projectBegin/text()')}" %></h3>
+  <h3>Project end: <%= "#{@response_object.xpath('.//tuVienna/project/projectEnd/text()')}" %></h3>
+
+  <% if @response_object.xpath('.//tuVienna/project/abstract/en/text()') || @response_object.xpath('.//tuVienna/project/abstract/de/text()')%>
+    <h3>Abstract:</h3>
+  <%end %>
+  <%= @response_object.xpath('.//tuVienna/project/abstract/en/text()').nil? ?
+        sanitize(@response_object.xpath('.//tuVienna/project/abstract/de/text()').inner_text()) :
+        sanitize(@response_object.xpath('.//tuVienna/project/abstract/en/text()').inner_text()) %>
+
+
+  <h3>Annotations:</h3>
+  <%= form_with url: "/projects/annotations", method: :put do |form| %>
+    <div class="annotation-form">
+      <p>
+        <%= form.text_area :annotation, :value => @annotation&.annotation, :cols => "30", :rows => "3", :placeholder => "Your annotation here..." %>
+        <%= form.hidden_field :project_id, :value => @response_object.xpath('.//tuVienna/project/@id') %>
+      </p>
+      <p>
+        <%= form.submit @annotation ? "Save edit" : "Add Annotation" %>
+      </p>
+    </div>
+  <% end %>
+
+  <h3>Personal Keywords:</h3>
+
+  <% if @keywords %>
+
+    <div class="keyword-list">
+
+      <% @keywords.each_with_index do |keyword, index| %>
+        <div class="keyword">
+          <%= keyword %>
+          <%= button_to '', projects_keywords_path(ind: index,
+                                                   project_id: @response_object.xpath('.//tuVienna/project/@id')), :class => "kw-remove",
+                        method: :delete %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+
+  <%= form_with url: "/projects/keywords", method: :put do |form| %>
+    <div class="annotation-form">
+      <p>
+        <%= form.text_field :keyword, :value => @new_keyword, :required => "required", :placeholder => "Add a keyword..." %>
+        <%= form.hidden_field :project_id, :value => @response_object.xpath('.//tuVienna/project/@id') %>
+      </p>
+      <p>
+        <%= form.submit "Add keyword" %>
+      </p>
+    </div>
+
+  <% end %>
+
+
+  <%= button_to 'Add to favorites', projects_path(project_id: @response_object.xpath('.//tuVienna/project/@id'),
+                                                 title: @response_object.xpath('.//tuVienna/project/title/en/text()').nil? ?
+                                                          @response_object.xpath('.//tuVienna/project/title/de/text()') :
+                                                          @response_object.xpath('.//tuVienna/project/title/en/text()')),class: "add-to-favorites-button" %>
+</div>

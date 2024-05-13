@@ -1,0 +1,35 @@
+<h1 class="page-title">Sign in</h1>
+
+<div class="row">
+  <% flash.each do |type, msg| %>
+    <div class="page-title danger">
+      <%= msg %>
+    </div>
+  <% end %>
+
+  <div class="sign-form">
+
+    <%= form_with url: users_sign_in_path do |f| %>
+
+      <p class="faux-label">
+        <%= f.label :name %>
+      </p>
+      <p>
+        <%= f.text_field :name , :required=>true%>
+      </p>
+      <p class="faux-label">
+        <%= f.label :password %>
+      </p>
+      <p>
+        <%= f.password_field :password , :required=>true%>
+      </p>
+      <%= f.submit "Sign in", class: "btn btn-primary" %>
+
+      <p><%= link_to 'No profile? Create one here!', "/users", method: :get %></p>
+
+  <% end %>
+
+  </div>
+
+
+</div>

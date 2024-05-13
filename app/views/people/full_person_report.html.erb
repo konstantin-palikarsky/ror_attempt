@@ -1,0 +1,102 @@
+<div class="person-details">
+
+  <%= form_with url: "/people/full_report/#{@person["tiss_id"]}", method: :get do |form| %>
+    <div class="report-search">
+      <p>
+        <%= form.text_field :search_key, :required => 'required',
+                            :value => @search_key, :placeholder => "Search within report..." %>
+      </p>
+      <p>
+        <%= form.submit "Search", class: "search-submit" %>
+      </p>
+    </div>
+  <% end %>
+
+  <h2> <%= highlight("#{@person["first_name"]} #{@person["last_name"]}", /#{@search_key}/) %></h2>
+
+  <% if @person["picture_uri"] %>
+    <img src="<%= @tuwien_uri + @person["picture_uri"] %>" style="max-width: 300px">
+  <% end %>
+
+  <h2>Details:</h2>
+  <p class="title-paragraph">  <%= highlight @person["preceding_titles"], /#{@search_key}/ %> </p>
+
+  <% if @person["main_phone_number"] %>
+    <p><%= highlight(@person["main_phone_number"], /#{@search_key}/) %> </p>
+  <% end %>
+
+  <% if @person["main_email"] %>
+    <p><%= highlight(@person["main_email"], /#{@search_key}/) %> </p>
+  <% end %>
+
+  <h4>Theses <%= "#{@person["first_name"]} #{@person["last_name"]}" %> was a part of:</h4>
+  <% if @theses_search_results.length >= 1 %>
+    <div class="person-list">
+
+      <% @theses_search_results.each_with_index do |thesis, index| %>
+
+        <div class="list-item">
+          <h3><%= if thesis["title"].nil?
+                    highlight(thesis["id"], /#{@search_key}/)
+                  else
+                    highlight(thesis["title"], /#{@search_key}/)
+                  end %> </h3>
+          <h3><%= link_to 'Details', "/theses/#{thesis["id"]}" %></h3>
+        </div>
+      <% end %>
+    </div>
+
+  <% else %>
+    <p> No theses found for <%= "#{@person["first_name"]} #{@person["last_name"]}" %>! </p>
+  <% end %>
+
+  <h4>Projects <%= "#{@person["first_name"]} #{@person["last_name"]}" %> was a part of:</h4>
+  <% if @projects_search_results.length >= 1 %>
+    <div class="person-list">
+
+      <% @projects_search_results.each_with_index do |project, index| %>
+
+        <div class="list-item">
+          <h3><%= if project["title"].nil?
+                    highlight(project["id"], /#{@search_key}/)
+                  else
+                    highlight(project["title"], /#{@search_key}/)
+                  end %> </h3>
+          <h3><%= link_to 'Details', "/projects/#{project["id"]}" %></h3>
+        </div>
+      <% end %>
+    </div>
+
+  <% else %>
+    <p> No projects found for <%= "#{@person["first_name"]} #{@person["last_name"]}" %>! </p>
+  <% end %>
+
+
+  <h4>Courses <%= "#{@person["first_name"]} #{@person["last_name"]}" %> lectures in:</h4>
+  <% if @courses_nodeset.length >= 1 %>
+    <div class="person-list">
+
+      <% @courses_nodeset.each_with_index do |course, index| %>
+
+        <div class="list-item">
+          <h3> <%= course.xpath('.//title/en/text()').nil? ?
+                        highlight(course.xpath('.//title/de/text()').to_s, /#{@search_key}/) :
+                        highlight(course.xpath('.//title/en/text()').to_s, /#{@search_key}/)  %> </h3>
+
+          <h3><%= link_to 'Details', "/courses/#{course.xpath('.//courseNumber/text()').to_s +
+            '-' + course.xpath('.//semesterCode/text()').to_s}" %></h3>
+
+        </div>
+      <% end %>
+    </div>
+
+  <% else %>
+    <p><%= "#{@person["first_name"]} #{@person["last_name"]}" %> was not a lecturer in any courses! </p>
+  <% end %>
+
+
+  <%= button_to 'Add to favorites', people_path(tiss_id: @person["tiss_id"], first_name: @person["first_name"],
+                                                last_name: @person["last_name"]) %>
+
+</div>
+

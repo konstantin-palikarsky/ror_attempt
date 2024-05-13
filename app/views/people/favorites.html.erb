@@ -1,0 +1,27 @@
+<h1 class="page-title">Favorite People by <%= params[:order_by_title] == 'true' ? 'first name' : 'date added' %></h1>
+<%= link_to params[:order_by_title] == 'true' ? 'Sort by date added' : 'Sort by first name',
+            people_favorites_path(order_by_title: (params[:order_by_title] == 'true' ? 'false' : 'true')), method: :get %>
+
+<% if @favorites.length >= 1 %>
+  <div class="person-list">
+
+    <% @favorites.each_with_index do |person, index| %>
+      <div class="list-item">
+        <h2><%= person["first_name"] %> <%= person["last_name"] %></h2>
+
+        <div class="button-line">
+
+          <%= button_to 'Details', "/people/#{person["tiss_id"]}", method: :get %>
+          <%= button_to 'Full Report', "/people/full_report/#{person["tiss_id"]}", method: :get %>
+
+          <%= button_to 'Remove favorite', people_path(tiss_id: person["tiss_id"]), method: :delete %>
+        </div>
+
+      </div>
+
+
+    <% end %>
+  </div>
+<% else %>
+  <p class="page-title"> You don't have favorites yet! </p>
+<% end %>

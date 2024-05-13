@@ -1,0 +1,30 @@
+<h1 class="page-title">Projects</h1>
+
+<% if @search_results.length >= 1 %>
+  <div class="person-list">
+
+    <% @search_results.each_with_index do |project, index| %>
+
+      <div class="list-item">
+        <h3><%= if project["title"].nil?
+                  project["id"]
+                else
+                  project["title"]
+                end %> </h3>
+
+        <div class="button-line">
+
+          <%= button_to 'Details', "/projects/#{project["id"]}", method: :get %>
+
+          <%= button_to 'Add to favorites',
+                        projects_path(project_id: project["id"],
+                                     title: project["title"]) %>
+        </div>
+
+      </div>
+    <% end %>
+  </div>
+
+<% else %>
+  <p class="page-title"> No results found for your search! </p>
+<% end %>

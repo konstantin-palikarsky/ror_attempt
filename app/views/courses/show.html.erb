@@ -1,0 +1,82 @@
+<div class="person-details">
+  <h2> <%= "#{@response_object.xpath('.//tuvienna/course/title/en/text()').nil? ?
+                @response_object.xpath('.//tuvienna/course/title/de/text()') :
+                @response_object.xpath('.//tuvienna/course/title/en/text()')}" %></h2>
+
+  <h3>Semester: <%= "#{@response_object.xpath('.//tuvienna/course/semesterCode/text()')}" %></h3>
+  <h3>Course number: <%= "#{@response_object.xpath('.//tuvienna/course/courseNumber/text()')}" %></h3>
+  <h3>Course type: <%= "#{@response_object.xpath('.//tuvienna/course/courseType/text()')}" %></h3>
+
+  <h3>Objective:</h3>
+  <%= @response_object.xpath('.//tuvienna/course/objective/en/text()').nil? ?
+           sanitize(@response_object.xpath('.//tuvienna/course/objective/de/text()').inner_text()) :
+           sanitize(@response_object.xpath('.//tuvienna/course/objective/en/text()').inner_text()) %>
+
+  <h3>Teaching content:</h3>
+  <%= @response_object.xpath('.//tuvienna/course/teachingContent/en/text()').nil? ?
+           sanitize(@response_object.xpath('.//tuvienna/course/teachingContent/de/text()').inner_text()) :
+           sanitize(@response_object.xpath('.//tuvienna/course/teachingContent/en/text()').inner_text()) %>
+
+
+  <h3>Additional information:</h3>
+  <%= @response_object.xpath('.//tuvienna/course/additionalInformation/en/text()').nil? ?
+           sanitize(@response_object.xpath('.//tuvienna/course/additionalInformation/de/text()').inner_text()) :
+           sanitize(@response_object.xpath('.//tuvienna/course/additionalInformation/en/text()').inner_text()) %>
+
+
+  <h3>Institute:</h3>
+  <%= @response_object.xpath('.//tuvienna/course/instituteName/en/text()').nil? ?
+           sanitize(@response_object.xpath('.//tuvienna/course/instituteName/de/text()').inner_text()) :
+           sanitize(@response_object.xpath('.//tuvienna/course/instituteName/en/text()').inner_text()) %>
+  <h3>Details:</h3>
+
+  <%= link_to @response_object.xpath('.//tuvienna/course/url/text()').to_s(),@response_object.xpath('.//tuvienna/course/url/text()').to_s() %>
+
+  <h3>Annotations:</h3>
+  <%= form_with url: "/courses/annotations", method: :put do |form| %>
+    <div class="annotation-form">
+      <p>
+        <%= form.text_area :annotation, :value => @annotation&.annotation, :cols => "30", :rows => "3", :placeholder => "Your annotation here..." %>
+        <%= form.hidden_field :number_semester, :value => @response_object.xpath('.//tuvienna/course/courseNumber/text()').to_s() + '-' + @response_object.xpath('.//tuvienna/course/semesterCode/text()').to_s() %>
+      </p>
+      <p>
+        <%= form.submit @annotation ? "Save edit" : "Add Annotation" %>
+      </p>
+    </div>
+  <% end %>
+
+  <h3>Personal Keywords:</h3>
+
+  <% if @keywords %>
+
+    <div class="keyword-list">
+
+      <% @keywords.each_with_index do |keyword, index| %>
+        <div class="keyword">
+          <%= keyword %>
+          <%= button_to '', courses_keywords_path(ind: index,
+                                                 course_id: @response_object.xpath('.//tuvienna/course/courseNumber/text()').to_s() + '-' + @response_object.xpath('.//tuvienna/course/semesterCode/text()').to_s()), :class => "kw-remove",
+                        method: :delete %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+
+  <%= form_with url: "/courses/keywords", method: :put do |form| %>
+    <div class="annotation-form">
+      <p>
+        <%= form.text_field :keyword, :value => @new_keyword, :required => "required", :placeholder => "Add a keyword..." %>
+        <%= form.hidden_field :course_id, :value => @response_object.xpath('.//tuvienna/course/courseNumber/text()').to_s() + '-' + @response_object.xpath('.//tuvienna/course/semesterCode/text()').to_s() %>
+      </p>
+      <p>
+        <%= form.submit "Add keyword" %>
+      </p>
+    </div>
+
+  <% end %>
+
+  <%= button_to 'Add to favorites', courses_path(number_semester: @response_object.xpath('.//tuvienna/course/courseNumber/text()').to_s() + '-' + @response_object.xpath('.//tuvienna/course/semesterCode/text()').to_s(),
+                                                 title: @response_object.xpath('.//tuvienna/course/title/en/text()').nil? ?
+                                                          @response_object.xpath('.//tuvienna/course/title/de/text()') :
+                                                          @response_object.xpath('.//tuvienna/course/title/en/text()')), class: "add-to-favorites-button" %>
+</div>

@@ -1,0 +1,27 @@
+<h1 class="page-title">People</h1>
+
+<% if @search_results.length >= 1 %>
+  <div class="person-list">
+
+    <% @search_results.each_with_index do |person, index| %>
+
+      <div class="list-item">
+        <h2><%= person["first_name"] %> <%= person["last_name"] %></h2>
+
+        <div class="button-line">
+
+          <%= button_to 'Details', "/people/#{person["tiss_id"]}", method: :get %>
+          <%= button_to 'Full Report', "/people/full_report/#{person["tiss_id"]}", method: :get %>
+
+          <%= button_to 'Add to favorites',
+                        people_path(tiss_id: person["tiss_id"],
+                                    first_name: person["first_name"], last_name: person["last_name"]) %>
+        </div>
+
+      </div>
+    <% end %>
+  </div>
+
+<% else %>
+  <p class="page-title"> No results found for your search! </p>
+<% end %>

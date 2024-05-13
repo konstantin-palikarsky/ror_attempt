@@ -1,0 +1,23 @@
+<h1 class="page-title">Search for Projects</h1>
+
+
+
+<%= form_with url: "/projects", method: :get do |form| %>
+  <div class="search-action">
+
+    <p>
+      <%= form.text_field :search_term, :required => 'required' %>
+    </p>
+    <p>
+      <%= form.submit "Search", class: "search-submit"%>
+    </p>
+  </div>
+
+<% end %>
+
+<h1 class="page-title">Or</h1>
+
+<div class="favorite-button">
+  <h2><%= link_to 'Show favorites', "/projects/favorites", method: :get %></h2>
+</div>
+

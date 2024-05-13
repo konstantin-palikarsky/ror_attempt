@@ -1,0 +1,25 @@
+<h1 class="page-title">Courses</h1>
+
+<% if @search_results.length >= 1 %>
+  <div class="person-list">
+
+    <% @search_results.each_with_index do |course, index| %>
+
+      <div class="list-item">
+        <h3><%= course["title"] %> </h3>
+
+        <div class="button-line">
+
+          <%= button_to 'Details', "/courses/#{parse_number_semester(course["detail_url"])}", method: :get %>
+          <%= button_to 'Add to favorites',
+                        courses_path(number_semester: parse_number_semester(course["detail_url"]),
+                                     title: course["title"]) %>
+        </div>
+
+      </div>
+    <% end %>
+  </div>
+
+<% else %>
+  <p class="page-title"> No results found for your search! </p>
+<% end %>

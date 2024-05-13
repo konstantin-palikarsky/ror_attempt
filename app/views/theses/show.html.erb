@@ -1,0 +1,78 @@
+<div class="person-details">
+  <h2> <%= "#{ (@response_object.xpath('.//tuvienna/thesis/title/en/text()').nil? ||
+    @response_object.xpath('.//tuvienna/thesis/title/en/text()').empty?) ?
+                 @response_object.xpath('.//tuvienna/thesis/title/de/text()') :
+                 @response_object.xpath('.//tuvienna/thesis/title/en/text()')}" %></h2>
+
+  <h3>Thesis type: <%= "#{@response_object.xpath('.//tuvienna/thesis/thesisType/text()').to_s.titleize}" %></h3>
+
+  <h3>Institute Name: <%= "#{ (@response_object.xpath('.//tuvienna/thesis/instituteName/en/text()').nil? ||
+    @response_object.xpath('.//tuvienna/thesis/instituteName/en/text()').empty?) ?
+                                @response_object.xpath('.//tuvienna/thesis/instituteName/de/text()') :
+                                @response_object.xpath('.//tuvienna/thesis/instituteName/en/text()')}" %></h3>
+
+  <h3>Faculty Name: <%= "#{ (@response_object.xpath('.//tuvienna/thesis/facultyName/en/text()').nil? ||
+    @response_object.xpath('.//tuvienna/thesis/facultyName/en/text()').empty?) ?
+                              @response_object.xpath('.//tuvienna/thesis/facultyName/de/text()') :
+                              @response_object.xpath('.//tuvienna/thesis/facultyName/en/text()')}" %></h3>
+
+  <h3>Keywords: <%= "#{ (@response_object.xpath('.//tuvienna/thesis/keywords/en/text()').nil? ||
+    @response_object.xpath('.//tuvienna/thesis/keywords/en/text()').empty?) ?
+                          @response_object.xpath('.//tuvienna/thesis/keywords/de/text()') :
+                          @response_object.xpath('.//tuvienna/thesis/keywords/en/text()')}" %></h3>
+  <h3>Details:
+    <%= link_to "TISS Link",
+                @response_object.xpath('.//tuvienna/thesis/url/text()').to_s %>
+  </h3>
+
+
+  <h3>Personal Annotations:</h3>
+  <%= form_with url: "/theses/annotations", method: :put do |form| %>
+    <div class="annotation-form">
+      <%= form.text_area :annotation, :value => @annotation&.annotation, :cols => "30", :rows => "3", :placeholder => "Your annotation here..." %>
+      <%= form.hidden_field :thesis_id, :value => parse_id(@response_object.xpath('.//tuvienna/thesis/url').to_s) %>
+      <p>
+        <%= form.submit @annotation ? "Save edit" : "Add Annotation" %>
+      </p>
+    </div>
+
+  <% end %>
+
+  <h3>Personal Keywords:</h3>
+
+  <% if @keywords %>
+
+    <div class="keyword-list">
+
+      <% @keywords.each_with_index do |keyword, index| %>
+        <div class="keyword">
+          <%= keyword %>
+          <%= button_to '', theses_keywords_path(ind: index,
+                                                 thesis_id: parse_id(
+                                                   @response_object.xpath('.//tuvienna/thesis/url').to_s)), :class => "kw-remove",
+                        method: :delete %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+
+  <%= form_with url: "/theses/keywords", method: :put do |form| %>
+    <div class="annotation-form">
+      <p>
+        <%= form.text_field :keyword, :value => @new_keyword, :required => "required", :placeholder => "Add a keyword..." %>
+        <%= form.hidden_field :thesis_id, :value => parse_id(@response_object.xpath('.//tuvienna/thesis/url').to_s) %>
+      </p>
+      <p>
+        <%= form.submit "Add keyword" %>
+      </p>
+    </div>
+
+  <% end %>
+
+
+  <%= button_to 'Add to favorites', theses_path(thesis_id: parse_id(@response_object.xpath('.//tuvienna/thesis/url').to_s),
+                                                title: (@response_object.xpath('.//tuvienna/thesis/title/en/text()').nil? ||
+                                                  @response_object.xpath('.//tuvienna/thesis/title/en/text()').empty?) ?
+                                                         @response_object.xpath('.//tuvienna/thesis/title/de/text()') :
+                                                         @response_object.xpath('.//tuvienna/thesis/title/en/text()')),class: "add-to-favorites-button" %>
+</div>

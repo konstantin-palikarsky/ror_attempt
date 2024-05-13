@@ -1,0 +1,258 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS (and SCSS, if configured) file within this directory, lib/assets/stylesheets, or any plugin's
+ * vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ *= require font-awesome
+ */
+:root {
+    --serif-font: Palatino, "Palatino Linotype", "URW Palladio L", serif;
+    --primary-color: #4297A0;
+    --dark-primary-color: #1d5f64;
+    --background-color: #EFF6F5;
+}
+
+.keyword-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.keyword {
+    display: flex;
+    position: relative;
+}
+
+.kw-remove {
+    border-radius: 50%;
+    height: 1.5em;
+    width: 1.5em;
+    padding: 0;
+    margin-left: 0.5em;
+    position: absolute;
+    top: 0.3em;
+    font-size: 0.6rem;
+    line-height: 1rem;
+}
+
+.kw-remove::before {
+    content: "✕";
+    font-family: sans-serif;
+}
+
+.add-to-favorites-button{
+    width:100% !important;
+}
+
+body {
+    font-family: var(--serif-font);
+    font-size: 1rem;
+    line-height: 1.2rem;
+    height: 100%;
+    margin: 1em;
+    background: var(--background-color);
+}
+
+.danger {
+    color: red;
+}
+
+
+.header-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin: 1em;
+    background: var(--primary-color);
+    border-radius: 5px!important;
+}
+
+.header-buttons button {
+    min-width: 5em;
+}
+
+.page-title {
+    text-align: center;
+}
+
+.person-list {
+}
+
+.list-item {
+    margin: 1em auto auto;
+    width: 70%;
+    padding: 1em;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4);
+    border-radius: 5px;
+}
+
+.list-item > h3 {
+    padding: 1em;
+}
+.list-item h1{
+    margin: auto auto;
+    text-align: center;
+}
+.list-item h2{
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    text-align: center;
+}
+a {
+    text-decoration: none;
+    color:var(--dark-primary-color);
+}
+
+.home-link:visited{
+    text-decoration: none;
+    color:var(--dark-primary-color);
+}
+
+.icon{
+    font-size: 2em!important;
+}
+.button-line {
+    justify-content: space-around;
+    display: flex;
+    padding: 0!important;
+    margin: 0!important;
+}
+.button-line form{
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+.button-line button{
+    width: 90%;
+    text-align: center;
+}
+.button-line :first-child button{
+    padding-left: 0.5em;
+}
+
+button {
+    cursor: pointer;
+    color: var(--background-color);
+    background-color: var(--primary-color);
+    height: 2.5rem;
+    border: 0;
+    border-radius:5px;
+    padding: 0 1em;
+}
+
+.search-action {
+
+    display: flex;
+    justify-content: center;
+    margin-right: 0;
+}
+
+.search-submit{
+    border-bottom-left-radius: 0!important;
+    border-top-left-radius: 0!important;
+}
+.report-search{
+    display: flex;
+}
+input[type="submit"] {
+    cursor: pointer;
+    color: var(--background-color);
+    border-radius: 5px;
+    background-color: var(--primary-color);
+    height: 2.5rem;
+    border: 0;
+    padding: 0 1em;
+}
+
+input[type="text"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 0 1em;
+    font-family: inherit;
+    font-size: 1em;
+    height: 2.5rem;
+
+    margin: auto 0;
+}
+
+textarea {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 0 1em;
+    font-family: inherit;
+    font-size: 1em;
+
+    resize: none;
+
+    margin: auto 0;
+}
+
+.delete {
+    text-decoration: none;
+    color: red;
+    font-family: Arial, serif;
+}
+
+.delete:link {
+    text-decoration: none;
+}
+
+.delete:visited {
+    text-decoration: none;
+}
+
+.delete:hover {
+    text-decoration: none;
+}
+
+.delete:active {
+    text-decoration: none;
+}
+
+input[type="password"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 0 1em;
+    font-family: inherit;
+    font-size: 1em;
+    height: 2.5rem;
+
+    margin: auto 0;
+}
+
+.favorite-button {
+    text-align: center;
+    color: var(--primary-color);
+}
+
+.sign-form {
+    margin: auto;
+    display: flex;
+    justify-content: space-around;
+}
+
+.faux-label {
+    margin-bottom: -0.75em;
+}
+
+.person-details {
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+.person-details > p {
+    width: 90%;
+}

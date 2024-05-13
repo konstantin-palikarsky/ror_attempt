@@ -1,0 +1,23 @@
+<h2>Favorite people</h2>
+
+<% if @favorites_printable.length >= 1 %>
+  <div class="printable-list">
+    <% @favorites_printable.each_with_index do |favorite, index| %>
+      <div class="printable-list-item">
+        <h3>
+          <%= index + 1 %>. <%= favorite["title"].nil? ? favorite["project_id"] : favorite["title"]  %>
+        </h3>
+
+        <% if @with_annotation %>
+          <p>
+            Note: <%= (@annotation.find_by("annot_id" => favorite['project_id']) && !@annotation.find_by("annot_id" => favorite['project_id'])&.annotation.empty?) ? @annotation.find_by("annot_id" => favorite['project_id']).annotation : "Empty" %>
+          </p>
+        <% end %>
+
+
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <p class="page-title"> You don't have any favorites. </p>
+<% end %>

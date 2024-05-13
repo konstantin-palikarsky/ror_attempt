@@ -1,0 +1,65 @@
+<div class="person-list">
+  <div class="list-item">
+    <h1>People</h1>
+    <div>
+      <h2><%= link_to 'Search people', "/people/search",  class: "home-link", method: :get %></h2>
+    </div>
+    <div>
+      <h2><%= link_to 'Print favorite people', "/people/print", class: "home-link",method: :get %></h2>
+    </div>
+    <div>
+      <h2><%= link_to 'Print favorite people with annotation', "/people/print?annotated=true", class: "home-link",method: :get %></h2>
+    </div>
+    <div>
+      <h2><%= link_to 'Show favorite people', "/people/favorites", class: "home-link",method: :get %></h2>
+    </div>
+  </div>
+  <div class="list-item">
+    <h1>Courses</h1>
+    <div>
+      <h2><%= link_to 'Search courses', "/courses/search", class: "home-link",method: :get %></h2>
+    </div>
+    <div>
+      <h2><%= link_to 'Print favorite courses', "/courses/print", class: "home-link",method: :get %></h2>
+    </div>
+    <div>
+      <h2><%= link_to 'Print favorite courses with annotation', "/courses/print?annotated=true", class: "home-link",method: :get %></h2>
+    </div>
+    <div>
+      <h2><%= link_to 'Show favorite courses', "/courses/favorites", class: "home-link",method: :get %></h2>
+    </div>
+  </div>
+  <div class="list-item">
+    <h1>Theses</h1>
+    <div>
+      <h2><%= link_to 'Search theses', "/theses/search", class: "home-link",method: :get %></h2>
+    </div>
+    <div>
+      <h2><%= link_to 'Print favorite theses', "/theses/print", class: "home-link",method: :get %></h2>
+    </div>
+    <div>
+      <h2><%= link_to 'Print favorite theses with personal annotations', "/theses/print?annotated=true",
+                      class: "home-link",method: :get %></h2>
+    </div>
+    <div>
+      <h2><%= link_to 'Show favorite theses', "/theses/favorites", class: "home-link",method: :get %></h2>
+    </div>
+  </div>
+  <div class="list-item">
+    <h1>Projects</h1>
+    <div>
+      <h2><%= link_to 'Search projects', "/projects/search", class: "home-link",method: :get %></h2>
+    </div>
+    <div>
+      <h2><%= link_to 'Print favorite projects', "/projects/print", class: "home-link",method: :get %></h2>
+    </div>
+    <div>
+      <h2><%= link_to 'Print favorite projects with personal annotations', "/projects/print?annotated=true",
+                      class: "home-link",method: :get %></h2>
+    </div>
+    <div>
+      <h2><%= link_to 'Show favorite projects', "/projects/favorites", class: "home-link",method: :get %></h2>
+    </div>
+  </div>
+</div>
+

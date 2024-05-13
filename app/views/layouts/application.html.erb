@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>TissRuKRoR</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+
+  <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+</head>
+
+<body>
+
+<div class="header-buttons">
+
+  <%= button_to 'javascript:history.back()', method: :get do%>
+    <% fa_icon "angle-left", class: "icon" %>
+  <% end %>
+
+  <% if session[:user_id] %>
+
+    <%= button_to root_path, method: :get do%>
+      <% fa_icon "home", class: "icon" %>
+    <% end %>
+
+    <%= button_to users_sign_out_path, method: :post do%>
+      <% fa_icon "sign-out", class: "icon" %>
+    <% end %>
+
+
+  <% else %>
+    <%= button_to root_path, method: :get do%>
+      <% fa_icon "home", class: "icon" %>
+    <% end %>
+
+    <%= button_to users_sign_in_path, method: :get do%>
+      <% fa_icon "sign-in", class: "icon" %>
+    <% end %>
+  <% end %>
+
+
+</div>
+
+<%= yield %>
+</body>
+</html>
